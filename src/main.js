@@ -11,6 +11,10 @@ import highlight from 'highlight.js'
 import Authorized from "./components/Authorized"
 import Auth from "./directives/auth"
 
+import mixins from '@/utils/mixins'
+
+import components from "./common"
+
 import '@/style/index.less'
 import "ant-design-vue/dist/antd.less"
 
@@ -27,6 +31,8 @@ Vue.config.productionTip = false
 Vue.component('Authorized', Authorized)
 Vue.use(Auth)
 Vue.use(ant)
+Vue.mixin(mixins)
+Vue.use(components)
 
 marked.setOptions({
   renderer: new marked.Renderer(),

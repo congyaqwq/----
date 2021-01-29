@@ -1,7 +1,7 @@
 <template>
   <a-card>
-    <a-button class="mg15" type="primary">新增</a-button>
-    <a-table row-key="id" :dataSource="list" :columns="columns">
+    <a-button class="mg15" type="primary" @click="$router.push('/blog/detail')">新增</a-button>
+    <a-table :pagination="false" row-key="id" :dataSource="list" :columns="columns">
       <template #blog_title="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
       <template #content="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
       <template #action="text,record">
@@ -11,6 +11,7 @@
         </div>
       </template>
     </a-table>
+    <my-pagination :payload="payload" @change="fetchData"></my-pagination>
   </a-card>
 </template>
 
@@ -19,7 +20,12 @@ import * as Api from "@/api/blog";
 
 export default {
   data() {
+    const { page = 1, per_page = 12 } = this.$route.query;
     return {
+      payload: {
+        page: Number(page),
+        per_page: Number(per_page)
+      },
       list: [],
       record: {}
     };
@@ -48,8 +54,9 @@ export default {
     this.fetchData();
   },
   methods: {
-    async fetchData() {
-      const { data } = await Api.list();
+    async fetchData(fixedData = {}) {
+      this.saveParams(fixedData);
+      const { data } = await Api.list(this.payload);
       this.list = data;
     },
     async remove({ id }) {

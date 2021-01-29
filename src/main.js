@@ -11,7 +11,9 @@ import highlight from 'highlight.js'
 import Authorized from "./components/Authorized"
 import Auth from "./directives/auth"
 
+// 工具
 import mixins from '@/utils/mixins'
+import formatDate from '@/utils/formatDate'
 
 import components from "./common"
 
@@ -33,6 +35,8 @@ Vue.use(Auth)
 Vue.use(ant)
 Vue.mixin(mixins)
 Vue.use(components)
+
+Vue.prototype.$formatDate = formatDate
 
 marked.setOptions({
   renderer: new marked.Renderer(),

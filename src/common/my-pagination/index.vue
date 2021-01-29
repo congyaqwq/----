@@ -31,10 +31,10 @@ export default {
   computed: {
     current: {
       get() {
-        return this.payload.page - 1;
+        return this.payload.page;
       },
       set(val) {
-        this.$emit("input", Number(val) + 1);
+        this.onShowSizeChange(Number(val), this.payload.per_page);
       }
     }
   },
@@ -42,7 +42,7 @@ export default {
   methods: {
     onShowSizeChange(current, pageSize) {
       this.$emit("change", {
-        page: Number(current) + 1,
+        page: Number(current),
         per_page: Number(pageSize)
       });
     }

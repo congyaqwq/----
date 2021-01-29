@@ -4,6 +4,7 @@
     <a-table :pagination="false" row-key="id" :dataSource="list" :columns="columns">
       <template #blog_title="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
       <template #content="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
+      <template #created_time="text">{{$formatDate(text)}}</template>
       <template #action="text,record">
         <div class="action-box">
           <span class="primary bold" @click="toEdit(record)">编辑</span>
@@ -11,7 +12,7 @@
         </div>
       </template>
     </a-table>
-    <my-pagination :payload="payload" @change="fetchData"></my-pagination>
+    <my-pagination :payload="payload" :total="total" @change="fetchData"></my-pagination>
   </a-card>
 </template>
 
@@ -26,6 +27,7 @@ export default {
         page: Number(page),
         per_page: Number(per_page)
       },
+      total: 0,
       list: [],
       record: {}
     };
@@ -45,7 +47,11 @@ export default {
         },
         { title: "查看数", dataIndex: "views" },
         { title: "点赞数", dataIndex: "thumbs" },
-        { title: "创建时间", dataIndex: "created_time" },
+        {
+          title: "创建时间",
+          dataIndex: "created_time",
+          scopedSlots: { customRender: "created_time" }
+        },
         { title: "操作", scopedSlots: { customRender: "action" } }
       ];
     }
@@ -57,12 +63,18 @@ export default {
     async fetchData(fixedData = {}) {
       this.saveParams(fixedData);
       const { data } = await Api.list(this.payload);
-      this.list = data;
+      this.list = data.list;
+      this.total = data.total;
     },
-    async remove({ id }) {
-      await Api.remove(id);
-      this.$message.success("删除成功");
-      this.fetchData();
+    remove({ id }) {
+      this.$confirm({
+        title: "确定要删除吗？",
+        onOk: async () => {
+          await Api.remove(id);
+          this.$message.success("删除成功");
+          this.fetchData();
+        }
+      });
     },
     toEdit({ id }) {
       this.$router.push({

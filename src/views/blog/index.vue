@@ -2,7 +2,12 @@
   <a-card>
     <a-button class="mg15" type="primary" @click="$router.push('/blog/detail')">新增</a-button>
     <a-table :pagination="false" row-key="id" :dataSource="list" :columns="columns">
-      <template #blog_title="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
+      <template #blog_title="text">
+        <a-tooltip>
+          {{text&&text.length>15?text.slice(0,15):text}}
+          <template #title>{{text}}</template>
+        </a-tooltip>
+      </template>
       <template #content="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
       <template #created_time="text">{{$formatDate(text)}}</template>
       <template #action="text,record">

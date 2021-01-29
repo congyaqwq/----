@@ -23,7 +23,7 @@ export function add(data) {
 
 export function update(data) {
   return request({
-    url: `blogs/add`,
+    url: `blogs/update/${data.id}`,
     method: 'put',
     data
   })

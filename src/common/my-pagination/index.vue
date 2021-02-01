@@ -1,6 +1,7 @@
 <template>
   <div class="pagination">
     <a-pagination
+      :showTotal="total=>`共${total}条数据`"
       v-model="current"
       :pageSize="payload.per_page"
       show-size-changer

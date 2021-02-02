@@ -5,7 +5,7 @@
         target="_blank"
         href="https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=28601"
       >
-        <img :src="require(`@/static/${Math.floor(Math.random()*100%4)}.png`)" alt />
+        <img :src="require(`@/static/${img}.png`)" alt />
       </a>
     </div>
     <div class="login-form center-flex">
@@ -28,13 +28,27 @@
 </template>
 
 <script>
-// import * as Api from '@/api/user'
+import md5 from "md5";
+import * as localData from "@/utils/localData";
+import * as Api from "@/api/user";
 
 export default {
   data() {
     return {
-      form: {}
+      form: {},
+      img: Math.floor((Math.random() * 100) % 4)
     };
+  },
+  methods: {
+    async toLogin() {
+      let d = {
+        ...this.form
+      };
+      d.password = md5(d.password);
+      const { data: token } = await Api.login(d);
+      localData.set("lc_blog_manage", token, 10);
+      this.$router.push("/blog");
+    }
   }
 };
 </script>

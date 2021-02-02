@@ -9,7 +9,7 @@
       </a-form-model-item>
       <a-form-model-item>
         <div class="action-box">
-          <a-button type="primary" @click="onSubmit">确认</a-button>
+          <a-button v-auth="is_admin" type="primary" @click="onSubmit">确认</a-button>
           <a-button @click="$router.push('/blog')">取消</a-button>
         </div>
       </a-form-model-item>
@@ -32,6 +32,11 @@ export default {
       id,
       form: {}
     };
+  },
+  computed: {
+    is_admin() {
+      return this.$store.state.user.is_admin;
+    }
   },
   mounted() {
     this.id && this.fetchData();

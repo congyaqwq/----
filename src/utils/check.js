@@ -1,4 +1,6 @@
 export default function (authority) {
-    const authList = ['admin']
-    return authList.some(it => authority.includes(it))
+    // const authList = ['is_admin']
+    // return authList.some(it => authority.includes(it))
+    if (!authority) return
+    return true
 }

@@ -2,6 +2,8 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
+import { get } from '@/utils/localData'
+import store from '../store'
 
 import RouteView from '@/components/RouteView'
 
@@ -72,6 +74,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(get('lc_blog_manage'))
+  if (get('lc_blog_manage') && !store.state.user.username) {
+    store.dispatch('user/getUserInfo')
+  }
   NProgress.start()
   next()
 })

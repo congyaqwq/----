@@ -13,7 +13,7 @@
       <template #action="text,record">
         <div class="action-box">
           <span class="primary bold" @click="toEdit(record)">编辑</span>
-          <span class="danger bold" @click="remove(record)">删除</span>
+          <span v-auth="is_admin" class="danger bold" @click="remove(record)">删除</span>
         </div>
       </template>
     </a-table>
@@ -38,6 +38,9 @@ export default {
     };
   },
   computed: {
+    is_admin() {
+      return this.$store.state.user.is_admin;
+    },
     columns() {
       return [
         {

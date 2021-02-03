@@ -8,6 +8,17 @@ import store from '../store'
 import RouteView from '@/components/RouteView'
 
 
+// 关闭跳转报错信息
+const originalReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  try {
+    return originalReplace.call(this, location).catch((err) => err)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const files = require.context('.', false, /\.js$/)
 
 let extraRoute = []
@@ -73,10 +84,12 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  console.log(get('lc_blog_manage'))
+router.beforeEach(async (to, from, next) => {
+  if (to.path !== '/user/login' && !get('lc_blog_manage')) {
+    next('/user/login')
+  }
   if (get('lc_blog_manage') && !store.state.user.username) {
-    store.dispatch('user/getUserInfo')
+    await store.dispatch('user/getUserInfo')
   }
   NProgress.start()
   next()

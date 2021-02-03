@@ -1,36 +1,45 @@
 <template>
-  <a-card>
-    <a-button class="mg15" type="primary" @click="$router.push('/blog/detail')">新增</a-button>
-    <a-table :pagination="false" row-key="id" :dataSource="list" :columns="columns">
-      <template #blog_title="text">
-        <a-tooltip>
-          {{text&&text.length>15?text.slice(0,15):text}}
-          <template #title>{{text}}</template>
-        </a-tooltip>
-      </template>
-      <template #content="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
-      <template #created_time="text">{{$formatDate(text)}}</template>
-      <template #action="text,record">
-        <div class="action-box">
-          <span class="primary bold" @click="toEdit(record)">编辑</span>
-          <span v-auth="is_admin" class="danger bold" @click="remove(record)">删除</span>
-        </div>
-      </template>
-    </a-table>
-    <my-pagination :payload="payload" :total="total" @change="fetchData"></my-pagination>
-  </a-card>
+  <div>
+    <search :payload="payload" @change="fetchData"></search>
+    <a-card>
+      <a-button v-auth="is_admin" class="mgb15" type="primary" @click="$router.push('/blog/detail')">新增</a-button>
+      <a-table :pagination="false" row-key="id" :dataSource="list" :columns="columns">
+        <template #blog_title="text">
+          <a-tooltip>
+            {{text&&text.length>15?text.slice(0,15):text}}
+            <template #title>{{text}}</template>
+          </a-tooltip>
+        </template>
+        <template #content="text">{{text&&text.length>15?text.slice(0,15):text}}</template>
+        <template #created_time="text">{{$formatDate(text)}}</template>
+        <template #action="text,record">
+          <div class="action-box">
+            <span class="primary bold" @click="toEdit(record)">编辑</span>
+            <span v-auth="is_admin" class="danger bold" @click="remove(record)">删除</span>
+          </div>
+        </template>
+      </a-table>
+      <my-pagination :payload="payload" :total="total" @change="fetchData"></my-pagination>
+    </a-card>
+  </div>
 </template>
 
 <script>
 import * as Api from "@/api/blog";
 
+import Search from "./components/search";
+
 export default {
+  components: {
+    Search
+  },
   data() {
-    const { page = 1, per_page = 12 } = this.$route.query;
+    const { page = 1, per_page = 12, keyword = "" } = this.$route.query;
     return {
       payload: {
         page: Number(page),
-        per_page: Number(per_page)
+        per_page: Number(per_page),
+        keyword
       },
       total: 0,
       list: [],

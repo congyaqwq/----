@@ -18,8 +18,8 @@
         </a-form-model-item>
         <a-form-model-item>
           <div class="action-box center-flex">
-            <a-button type="primary" @click="toLogin">登录</a-button>
-            <a-button>访客</a-button>
+            <a-button type="primary" @click="toLogin('')">登录</a-button>
+            <a-button @click="toLogin('visitor')">访客</a-button>
           </div>
         </a-form-model-item>
       </a-form-model>
@@ -40,10 +40,16 @@ export default {
     };
   },
   methods: {
-    async toLogin() {
-      let d = {
-        ...this.form
-      };
+    async toLogin(type) {
+      let d =
+        type == "visitor"
+          ? {
+              username: "visitor",
+              password: "visitor"
+            }
+          : {
+              ...this.form
+            };
       d.password = md5(d.password);
       const { data: token } = await Api.login(d);
       localData.set("lc_blog_manage", token, 10);

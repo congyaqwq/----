@@ -6,7 +6,7 @@
         v-auth="is_admin"
         class="mgb15"
         type="primary"
-        @click="$router.push('/blog/detail')"
+        @click="visible = true"
         >新增</a-button
       >
       <a-table
@@ -15,18 +15,12 @@
         :dataSource="list"
         :columns="columns"
       >
-        <template #tags="text">{{
-          text && text.length ? text.map((it) => it.name).join(",") : "-"
-        }}</template>
-        <template #blog_title="text">
+        <template #name="text">
           <a-tooltip>
             {{ text && text.length > 15 ? text.slice(0, 15) : text }}
             <template #title>{{ text }}</template>
           </a-tooltip>
         </template>
-        <template #content="text">{{
-          text && text.length > 15 ? text.slice(0, 15) : text
-        }}</template>
         <template #created_time="text">{{ $formatDate(text) }}</template>
         <template #action="text, record">
           <div class="action-box">
@@ -43,17 +37,24 @@
         @change="fetchData"
       ></my-pagination>
     </a-card>
+    <edit-dialog
+      v-model="visible"
+      :record="record"
+      @change="fetchData"
+    ></edit-dialog>
   </div>
 </template>
 
 <script>
-import * as Api from "@/api/blog";
+import * as Api from "@/api/tags";
 
 import Search from "./components/search";
+import EditDialog from "./components/edit-dialog";
 
 export default {
   components: {
     Search,
+    EditDialog,
   },
   data() {
     const { page = 1, per_page = 12, keyword = "" } = this.$route.query;
@@ -66,6 +67,7 @@ export default {
       total: 0,
       list: [],
       record: {},
+      visible: false,
     };
   },
   computed: {
@@ -76,21 +78,9 @@ export default {
       return [
         {
           title: "标题",
-          dataIndex: "title",
-          scopedSlots: { customRender: "blog_title" },
+          dataIndex: "name",
+          scopedSlots: { customRender: "name" },
         },
-        {
-          title: "内容",
-          dataIndex: "content",
-          scopedSlots: { customRender: "content" },
-        },
-        {
-          title: "标签",
-          dataIndex: "tags",
-          scopedSlots: { customRender: "tags" },
-        },
-        { title: "查看数", dataIndex: "views" },
-        { title: "点赞数", dataIndex: "thumbs" },
         {
           title: "创建时间",
           dataIndex: "created_time",

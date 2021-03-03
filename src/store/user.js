@@ -12,7 +12,7 @@ export default {
   },
   actions: {
     async getUserInfo({ commit }) {
-      const { data } = await detail()
+      const data = await detail()
       console.log(data)
       commit('SET_USER_INFO', data)
     }

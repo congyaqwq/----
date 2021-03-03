@@ -86,7 +86,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.path !== '/user/login' && !get('lc_blog_manage')) {
-    next('/user/login')
+    return next('/user/login')
   }
   if (get('lc_blog_manage') && !store.state.user.username) {
     await store.dispatch('user/getUserInfo')

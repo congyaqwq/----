@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       form: {},
-      img: Math.floor((Math.random() * 100) % 4)
+      img: Math.floor((Math.random() * 100) % 4),
     };
   },
   methods: {
@@ -45,17 +45,17 @@ export default {
         type == "visitor"
           ? {
               username: "visitor",
-              password: "visitor"
+              password: "visitor",
             }
           : {
-              ...this.form
+              ...this.form,
             };
       d.password = md5(d.password);
-      const { data: token } = await Api.login(d);
-      localData.set("lc_blog_manage", token, 10);
+      const token = await Api.login(d);
+      localData.set("lc_blog_manage", token, 24 * 60);
       this.$router.push("/blog");
-    }
-  }
+    },
+  },
 };
 </script>
 

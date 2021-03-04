@@ -27,7 +27,14 @@
           >
         </a-select>
       </a-form-model-item>
+      <a-form-model-item label="排序" prop="sort">
+        <a-input-number
+          v-model="form.sort"
+          placeholder="请输入"
+        ></a-input-number>
+      </a-form-model-item>
       <a-form-model-item
+        label="主要内容"
         prop="content"
         :rules="{ required: true, message: '请输入内容' }"
       >
@@ -93,13 +100,16 @@ export default {
       this.tagsList = list;
     },
     async fetchData() {
-      const data = await Api.detail(this.id);
-      this.form = data;
+      let data = await Api.detail(this.id);
       if (data.tags) {
         this.tagsList = data.tags;
       } else {
         this.fetchTagsList();
       }
+      this.form = {
+        ...data,
+        tags: data.tags && data.tags.length ? data.tags.map((it) => it.id) : [],
+      };
     },
     onSubmit() {
       this.$refs.form.validate(async (valid) => {

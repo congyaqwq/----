@@ -17,33 +17,34 @@ export default {
   props: {
     payload: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
-      form: this.payload
+      form: this.payload,
     };
   },
   watch: {
     payload(payload) {
       this.form = payload;
-    }
+    },
   },
   methods: {
     search() {
       const d = {
-        ...this.form
+        ...this.form,
       };
       this.$emit("change", d);
     },
     reset() {
       const d = {
-        keyword: ""
+        keyword: "",
+        page: 1,
       };
       this.$emit("change", d);
-    }
-  }
+    },
+  },
 };
 </script>
 

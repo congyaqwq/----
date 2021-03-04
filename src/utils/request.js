@@ -15,6 +15,7 @@ axios.interceptors.response.use(function (response) {
 export default function (options = {}) {
   const { method = 'get', url, data, params } = options
   const baseURL = process.env.NODE_ENV == 'production' ? 'http://39.103.137.10:3000/' : 'http://localhost:3000/'
+  // const baseURL = process.env.NODE_ENV == 'production' ? 'http://39.103.137.10:3000/' : 'http://localhost:80/api/'
   const token = get('lc_blog_manage')
   return axios({
     baseURL,

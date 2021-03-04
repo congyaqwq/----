@@ -27,6 +27,9 @@
         <template #content="text">{{
           text && text.length > 15 ? text.slice(0, 15) : text
         }}</template>
+        <template #sort="text">
+          {{ text || 0 }}
+        </template>
         <template #created_time="text">{{ $formatDate(text) }}</template>
         <template #action="text, record">
           <div class="action-box">
@@ -56,12 +59,13 @@ export default {
     Search,
   },
   data() {
-    const { page = 1, per_page = 12, keyword = "" } = this.$route.query;
+    const { page = 1, per_page = 12, keyword = "", tags } = this.$route.query;
     return {
       payload: {
         page: Number(page),
         per_page: Number(per_page),
         keyword,
+        tags: tags ? Number(tags) : undefined,
       },
       total: 0,
       list: [],
@@ -88,6 +92,11 @@ export default {
           title: "标签",
           dataIndex: "tags",
           scopedSlots: { customRender: "tags" },
+        },
+        {
+          title: "排序",
+          dataIndex: "sort",
+          scopedSlots: { customRender: "sort" },
         },
         { title: "查看数", dataIndex: "views" },
         { title: "点赞数", dataIndex: "thumbs" },

@@ -1,6 +1,7 @@
 <template>
   <a-modal
     v-model="computedVisible"
+    :destroyOnClose="false"
     :footer="is_admin ? undefined : null"
     @ok="onSubmit"
   >
@@ -34,6 +35,11 @@ export default {
     return {
       form: {},
     };
+  },
+  watch: {
+    record(record) {
+      this.form = { ...record };
+    },
   },
   computed: {
     is_admin() {

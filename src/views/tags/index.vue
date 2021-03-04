@@ -110,11 +110,9 @@ export default {
         },
       });
     },
-    toEdit({ id }) {
-      this.$router.push({
-        path: "/blog/detail",
-        query: { id },
-      });
+    toEdit(record) {
+      this.visible = true;
+      this.record = record;
     },
   },
 };

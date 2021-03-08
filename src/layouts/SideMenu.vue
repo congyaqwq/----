@@ -8,7 +8,11 @@
       :inline-collapsed="collapsed"
     >
       <template v-for="item in menuData">
-        <a-menu-item v-if="!item.children" :key="item.path" @click="linkTo(item)">
+        <a-menu-item
+          v-if="!item.children"
+          :key="item.path"
+          @click="linkTo(item)"
+        >
           <a-icon v-if="item.meta && item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta && item.meta.title }}</span>
         </a-menu-item>
@@ -24,13 +28,13 @@ import SubMenu from "./SubMenu";
 
 export default {
   components: {
-    SubMenu
+    SubMenu,
   },
   props: {
     theme: {
       type: String,
-      default: "dark"
-    }
+      default: "dark",
+    },
   },
   data() {
     this.selectedKeysMap = {};
@@ -42,14 +46,17 @@ export default {
       list: [],
       menuData,
       openKeys: [],
-      selectedKeys: []
+      selectedKeys: [],
     };
   },
   watch: {
-    "$route.path": function(val) {
-      this.selectedKeys = this.selectedKeysMap[val];
-      this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
-    }
+    "$route.path": {
+      immediate: true,
+      handler(val) {
+        this.selectedKeys = this.selectedKeysMap[val];
+        this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
+      },
+    },
   },
   methods: {
     toggleCollapsed() {
@@ -62,7 +69,7 @@ export default {
     getMenuData(routes = [], parentKeys = [], selectedKeys) {
       const menuData = [];
       let { openKeysMap, selectedKeysMap } = this;
-      routes.forEach(it => {
+      routes.forEach((it) => {
         if (it.name && !it.hideInMenu) {
           openKeysMap[it.path] = parentKeys;
           selectedKeysMap[it.path] = [selectedKeys || it.path];
@@ -71,7 +78,7 @@ export default {
           if (it.children && !it.hideInMenu) {
             newItem.children = this.getMenuData(it.children, [
               ...parentKeys,
-              it.path
+              it.path,
             ]);
           } else {
             this.getMenuData(
@@ -88,7 +95,7 @@ export default {
         }
       });
       return menuData;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -96,7 +96,6 @@ export default {
     },
     async fetchTagsList(name = "") {
       const { list } = await getTagsList({ name });
-      console.log(list);
       this.tagsList = list;
     },
     async fetchData() {

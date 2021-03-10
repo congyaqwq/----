@@ -18,7 +18,9 @@
         </a-form-model-item>
         <a-form-model-item>
           <div class="action-box center-flex">
-            <a-button type="primary" @click="toLogin('')">登录</a-button>
+            <a-button htmlType="submit" type="primary" @click="toLogin('')"
+              >登录</a-button
+            >
             <a-button @click="toLogin('visitor')">访客</a-button>
           </div>
         </a-form-model-item>

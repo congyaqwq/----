@@ -56,7 +56,8 @@
 import * as Api from "@/api/blog";
 import { list as getTagsList } from "@/api/tags";
 
-import MarkdownEditor from "@/components/markdown-editor";
+// import MarkdownEditor from "@/components/markdown-editor";
+import MarkdownEditor from "@halobear/vue-markdown-it";
 import debounce from "lodash/debounce";
 
 export default {

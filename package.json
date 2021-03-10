@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@halobear/vue-markdown-it": "^1.1.1",
     "ant-design-vue": "^1.7.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",

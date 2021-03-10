@@ -892,6 +892,14 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@halobear/vue-markdown-it@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@halobear/vue-markdown-it/-/vue-markdown-it-1.1.1.tgz#5941446ede482e90a2ff372b1280485a77708e5d"
+  integrity sha512-DylSJkL9cavBCmHf/jIDKIxfnnPDocaB5GEXhkFvLEUcdmiC2trSbZ9Rk3pVwvzqb5WxCcsZ15U9iPsszEo2rg==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^2.6.11"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

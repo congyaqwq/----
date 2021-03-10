@@ -5,6 +5,7 @@ import store from "./store"
 import ant from "ant-design-vue"
 import marked from 'marked'
 import highlight from 'highlight.js'
+import 'highlight.js/styles/atom-one-light.css'
 // import {
 //   Button,
 // } from "ant-design-vue"

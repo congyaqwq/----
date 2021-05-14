@@ -1,7 +1,8 @@
 # antd-design-pro
 
 ## blog admin 完全自己搭建的后台项目，根据路由生成导航栏
-
+### 预览地址
+https://www.congyaqwq.top/admin/
 ## Project setup
 ```
 yarn install
@@ -17,20 +18,6 @@ yarn run serve
 yarn run build
 ```
 
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

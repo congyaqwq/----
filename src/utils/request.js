@@ -27,7 +27,7 @@ export default function (options = {}) {
       Authorization: `Bearer ${token}`
     }
   }).catch(e => {
-    message.error(e.response.data.message)
+    message.error(e.response && e.response.data.message || '未知错误')
     throw (e)
   })
 }

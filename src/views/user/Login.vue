@@ -18,9 +18,7 @@
         </a-form-model-item>
         <a-form-model-item>
           <div class="action-box center-flex">
-            <a-button htmlType="submit" type="primary" @click="toLogin('')"
-              >登录</a-button
-            >
+            <a-button htmlType="submit" type="primary" @click="toLogin('')">登录</a-button>
             <a-button @click="toLogin('visitor')">访客</a-button>
           </div>
         </a-form-model-item>
@@ -30,35 +28,38 @@
 </template>
 
 <script>
-import md5 from "md5";
-import * as localData from "@/utils/localData";
-import * as Api from "@/api/user";
+import md5 from 'md5'
+import * as localData from '@/utils/localData'
+import * as Api from '@/api/user'
+import { message } from 'ant-design-vue'
 
 export default {
   data() {
     return {
       form: {},
       img: Math.floor((Math.random() * 100) % 4),
-    };
+    }
   },
   methods: {
     async toLogin(type) {
       let d =
-        type == "visitor"
+        type == 'visitor'
           ? {
-              username: "visitor",
-              password: "visitor",
+              username: 'visitor',
+              password: 'visitor',
             }
           : {
               ...this.form,
-            };
-      d.password = md5(d.password);
-      const token = await Api.login(d);
-      localData.set("lc_blog_manage", token, 24 * 60);
-      this.$router.push("/blog");
+            }
+      if (!d.username) return message.warn('请输入用户名')
+      if (!d.password) return message.warn('请输入密码')
+      d.password = md5(d.password)
+      const token = await Api.login(d)
+      localData.set('lc_blog_manage', token, 24 * 60)
+      this.$router.push('/blog')
     },
   },
-};
+}
 </script>
 
 <style lang="less" scoped>
